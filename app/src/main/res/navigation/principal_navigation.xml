@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/principal_navigation"
+    app:startDestination="@id/eventosListFragment">
+
+    <fragment
+        android:id="@+id/eventosListFragment"
+        android:name="com.eventosappteste.appeventos.Main.Eventos.EventosListFragment"
+        android:label="fragment_eventos_list"
+        tools:layout="@layout/fragment_eventos_list" >
+        <action
+            android:id="@+id/action_eventosListFragment_to_eventoDescricaoFragment"
+            app:destination="@id/eventoDescricaoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventoDescricaoFragment"
+        android:name="com.eventosappteste.appeventos.Main.Eventos.EventoDescricaoFragment"
+        android:label="fragment_evento_descricao"
+        tools:layout="@layout/fragment_evento_descricao" >
+        <argument
+            android:name="evento"
+            app:argType="com.eventosappteste.appeventos.Model.Evento" />
+    </fragment>
+</navigation>

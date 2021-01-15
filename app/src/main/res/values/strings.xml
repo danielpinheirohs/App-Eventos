@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">App Eventos</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="compartilhar">Compartilhar</string>
+    <string name="checkin">Check-in</string>
+    <string name="descricao">Descrição</string>
+    <string name="nome">Nome</string>
+    <string name="email">E-mail</string>
+    <string name="fazer_checkin">Fazer Check-in</string>
 </resources>
