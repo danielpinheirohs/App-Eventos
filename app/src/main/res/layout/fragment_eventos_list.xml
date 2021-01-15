@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,10 +7,24 @@
     android:background="@color/lightGrey"
     tools:context=".Main.Eventos.EventosListFragment">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lista_eventos"
+        android:textSize="20sp"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:textColor="@color/purple_500" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_lista_eventos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/evento_item"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        tools:listitem="@layout/evento_item"
+        android:layout_below="@+id/textView"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

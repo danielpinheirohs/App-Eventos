@@ -8,4 +8,7 @@
     <string name="nome">Nome</string>
     <string name="email">E-mail</string>
     <string name="fazer_checkin">Fazer Check-in</string>
+    <string name="checkin_sucess"><![CDATA[Check-in feito com sucesso! (>º3º)>]]></string>
+    <string name="checkin_error">Erro ao fazer Check-in! /(º-º)\\</string>
+    <string name="lista_eventos">Lista de Eventos</string>
 </resources>

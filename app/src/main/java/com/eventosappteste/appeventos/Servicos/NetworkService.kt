@@ -1,16 +1,14 @@
 package com.eventosappteste.appeventos.Servicos
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class NetworkService {
     companion object {
+        fun getRetrofitInstance() : Endpoint {
 
-        fun getRetrofitInstance(path : String) : Endpoint {
+            val path = "https://5f5a8f24d44d640016169133.mockapi.io/api/"
+
             return Retrofit.Builder()
                 .baseUrl(path)
                 .addConverterFactory(GsonConverterFactory.create())

@@ -53,7 +53,7 @@ class EventosListFragment : Fragment() {
 
     fun getData() {
         val retrofitClient = NetworkService
-            .getRetrofitInstance("https://5f5a8f24d44d640016169133.mockapi.io/api/")
+            .getRetrofitInstance()
 
         val callback = retrofitClient.getEvents()
 
@@ -61,7 +61,6 @@ class EventosListFragment : Fragment() {
             override fun onFailure(call: Call<List<Evento>>, t: Throwable) {
                 Toast.makeText(requireContext(), t.message, Toast.LENGTH_SHORT).show()
             }
-
             override fun onResponse(call: Call<List<Evento>>, response: Response<List<Evento>>) {
                 eventosAdapter.submitList(response.body()!!)
             }

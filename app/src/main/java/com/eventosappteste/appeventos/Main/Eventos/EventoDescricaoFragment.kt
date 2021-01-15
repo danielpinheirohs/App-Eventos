@@ -1,9 +1,9 @@
 package com.eventosappteste.appeventos.Main.Eventos
 
-import android.content.DialogInterface
+import android.content.ContentValues
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,28 +11,23 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.eventosappteste.appeventos.Model.CheckIn
-import com.eventosappteste.appeventos.Model.Evento
 import com.eventosappteste.appeventos.R
 import com.eventosappteste.appeventos.Servicos.NetworkService
 import com.eventosappteste.appeventos.Servicos.UiServices.toDateFormatted
+import com.eventosappteste.appeventos.Servicos.getObjectToShare
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Response
 
 class EventoDescricaoFragment : Fragment() {
 
@@ -42,11 +37,10 @@ class EventoDescricaoFragment : Fragment() {
     lateinit var data: TextView
     lateinit var preco: TextView
     lateinit var descricao: TextView
-    lateinit var checkinButton: MaterialButton
+    lateinit var checkinButton: FloatingActionButton
     lateinit var toolBar: MaterialToolbar
     private lateinit var customAlertDialogView : View
     private lateinit var materialAlertDialogBuilder: MaterialAlertDialogBuilder
-
     private val args by navArgs<EventoDescricaoFragmentArgs>()
 
     override fun onCreateView(
@@ -69,7 +63,10 @@ class EventoDescricaoFragment : Fragment() {
         toolBar = view.findViewById(R.id.topAppBar)
         materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
 
-        image.load(args.evento.image)
+        image.load(args.evento.image){
+            placeholder(R.drawable.image_not_found)
+            error(R.drawable.image_not_found)
+        }
         titulo.text = args.evento.title
         data.text = args.evento.date?.toDateFormatted()
         preco.text = args.evento.price.toString()
@@ -82,7 +79,8 @@ class EventoDescricaoFragment : Fragment() {
         compartilharButton.setOnClickListener{
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "Compartilhar")
+                val shareItem = getObjectToShare(args.evento)
+                putExtra(Intent.EXTRA_TEXT, shareItem)
                 type = "text/plain"
             }
             val shareIntent = Intent.createChooser(sendIntent, null)
@@ -94,7 +92,6 @@ class EventoDescricaoFragment : Fragment() {
             customAlertDialogView = LayoutInflater.from(requireContext())
                 .inflate(R.layout.dialog, null, false)
 
-            // Launching the custom alert dialog
             launchCustomAlertDialog()
         }
     }
@@ -103,7 +100,6 @@ class EventoDescricaoFragment : Fragment() {
         val nameTextField = customAlertDialogView.findViewById<TextInputEditText>(R.id.tieName)
         val emailTextField = customAlertDialogView.findViewById<TextInputEditText>(R.id.tieEmail)
 
-        // Building the Alert dialog using materialAlertDialogBuilder instance
         materialAlertDialogBuilder.setView(customAlertDialogView)
             .setPositiveButton("Confirmar") { dialog, _ ->
                 val eventId = args.evento.id
@@ -111,7 +107,7 @@ class EventoDescricaoFragment : Fragment() {
                 val email = emailTextField.text.toString()
 
                 val retrofitClient = NetworkService
-                    .getRetrofitInstance("https://5f5a8f24d44d640016169133.mockapi.io/api/")
+                    .getRetrofitInstance()
 
                 val checkIn = CheckIn(
                     eventId,
@@ -125,17 +121,15 @@ class EventoDescricaoFragment : Fragment() {
 
                         if (result.isSuccessful && result.code() == 201) {
                             withContext(Dispatchers.Main) {
-                                Toast.makeText(requireContext(), "deu certo", Toast.LENGTH_LONG).show()
+                                Toast.makeText(requireContext(), R.string.checkin_sucess, Toast.LENGTH_LONG).show()
                             }
                         } else {
                             withContext(Dispatchers.Main) {
-                                Toast.makeText(requireContext(), "deu errado", Toast.LENGTH_LONG).show()
+                                Toast.makeText(requireContext(), R.string.checkin_error, Toast.LENGTH_LONG).show()
                             }
                         }
                     } catch (ex: Exception) {
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(requireContext(), ex.toString(), Toast.LENGTH_LONG).show()
-                        }
+                        Log.d(ContentValues.TAG, "Exception lançada ao fazer checkIn.")
                     }
                 }
 

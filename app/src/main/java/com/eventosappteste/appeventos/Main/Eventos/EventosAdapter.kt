@@ -1,7 +1,5 @@
 package com.eventosappteste.appeventos.Main.Eventos
 
-import android.content.DialogInterface
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.eventosappteste.appeventos.Model.Evento
 import com.eventosappteste.appeventos.R
 import com.eventosappteste.appeventos.Servicos.UiServices.toDateFormatted
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 
 class EventosAdapter() : RecyclerView.Adapter<EventosAdapter.EventosViewHolder>(){
 
@@ -64,8 +58,8 @@ class EventosAdapter() : RecyclerView.Adapter<EventosAdapter.EventosViewHolder>(
 
             function = callback
             image.load(event.image){
-                crossfade(false)
                 placeholder(R.drawable.image_not_found)
+                error(R.drawable.image_not_found)
             }
             title.text = event.title
             subtitle.text = event.date?.toDateFormatted()
